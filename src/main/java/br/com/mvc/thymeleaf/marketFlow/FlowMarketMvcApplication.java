@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 @SpringBootApplication
-public class MudiMvcApplication {
+public class FlowMarketMvcApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MudiMvcApplication.class, args);
+		SpringApplication.run(FlowMarketMvcApplication.class, args);
 	}
 	
 	@Bean(name = "messageResource")
