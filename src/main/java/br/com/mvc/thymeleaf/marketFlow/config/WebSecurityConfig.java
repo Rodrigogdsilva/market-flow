@@ -6,6 +6,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -23,15 +25,18 @@ public class WebSecurityConfig {
 				.and()
 				.formLogin(form -> form
 						.loginPage("/login")
-						.permitAll());
+						.permitAll())
+						.logout(logout -> logout.logoutUrl("/logout"));
+				
 		return http.build();
     }
     
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        UserDetails user = User.builder()
             .username("user")
-            .password("password")
+            .password(encoder.encode("password"))
             .roles("ADM")
             .build();
         return new InMemoryUserDetailsManager(user);
