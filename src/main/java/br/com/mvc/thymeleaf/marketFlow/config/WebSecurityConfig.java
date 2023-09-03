@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+//import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -17,13 +17,14 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests(authorizeRequests ->
-                authorizeRequests
-                    .anyRequest().authenticated()
-            )
-            .httpBasic(withDefaults());
-        return http.build();
+		http.authorizeRequests()
+				.anyRequest()
+					.authenticated()
+				.and()
+				.formLogin(form -> form
+						.loginPage("/login")
+						.permitAll());
+		return http.build();
     }
     
     @Bean
